@@ -27,7 +27,7 @@ export interface KeyboardChange {
 export interface KeyEvent {
   /** Android `KeyEvent.KEYCODE_*`. */
   keyCode: number;
-  /** Android `KeyEvent.META_*` bit mask; see `META`. */
+  /** Android `KeyEvent.META_*` bit mask; see `Meta`. */
   metaState: number;
   /** 0 for the first press, > 0 for auto-repeat of a held key. */
   repeatCount: number;
@@ -38,7 +38,7 @@ export interface KeyEvent {
   consumed: boolean;
 }
 
-export { META, matchesKey, keyCodeFor, charForKeyCode } from './match';
+export { Meta, matchesKey, keyCodeFor, charForKeyCode } from './match';
 import { MODIFIERS } from './match';
 import type { KeyMatch } from './match';
 export type { KeyMatch };

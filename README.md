@@ -6,7 +6,7 @@ Hardware keyboard support for React Native on **Android** (phones, tablets, Chro
 - **Devices:** which keyboard-capable input devices exist, with the flags to apply your own rule.
 - **Key events:** every key press and release with Android `keyCode`, `metaState` and `repeatCount`.
 - **Consuming keys:** keep chosen shortcuts from reaching the app and its views (a `stopPropagation` for keys), so each shortcut is handled in one place.
-- **Helpers:** `matchesKey()`, `keyCodeFor()`, `charForKeyCode()`, `KeyCode`, `META`.
+- **Helpers:** `matchesKey()`, `keyCodeFor()`, `charForKeyCode()`, `KeyCode`, `Meta`.
 
 > **Android only.** Nothing here works on iOS or web. On other platforms every function is a safe no-op: presence reads `false`, device lists are empty, no events fire and `isAvailable` is `false`. The package is a plain React Native native module with no Expo dependency, no `MainActivity` changes and no manifest entries.
 
@@ -40,9 +40,9 @@ Requirements: React Native with autolinking; the library's default `minSdkVersio
 ## Quick start
 
 ```tsx
-import { useKeyboardConnected, useKeyDown, useConsumeKeys, matchesKey, keyCodeFor, META } from '@actualwave/react-native-keyboard';
+import { useKeyboardConnected, useKeyDown, useConsumeKeys, matchesKey, keyCodeFor, Meta } from '@actualwave/react-native-keyboard';
 
-const SAVE = { keyCode: keyCodeFor('s'), metaState: META.CTRL };   // Ctrl+S
+const SAVE = { keyCode: keyCodeFor('s'), metaState: Meta.CTRL };   // Ctrl+S
 const RULES = [SAVE];                                               // keep the reference stable
 
 export function Editor() {
@@ -122,11 +122,11 @@ Subscribe to key presses and releases. The events come from the activity's windo
 including a TV remote's D-pad and media keys, and they include auto-repeat of a held key.
 
 ```ts
-import { addKeyDownListener, addKeyUpListener, useKeyDown, META, KeyCode } from '@actualwave/react-native-keyboard';
+import { addKeyDownListener, addKeyUpListener, useKeyDown, Meta, KeyCode } from '@actualwave/react-native-keyboard';
 
 const off = addKeyDownListener((e) => {
   if (e.repeatCount > 0) return;                              // 0 on the first press, > 0 while held
-  if (e.keyCode === KeyCode.ENTER && e.metaState & META.CTRL) run();
+  if (e.keyCode === KeyCode.ENTER && e.metaState & Meta.CTRL) run();
 });
 off();
 
@@ -140,13 +140,13 @@ useKeyDown((e) => { /* … */ }, isFocused);                    // second argume
 | Field | Type | Meaning |
 | --- | --- | --- |
 | `keyCode` | `number` | Android `KeyEvent.KEYCODE_*` (see [Key codes](#key-codes)) |
-| `metaState` | `number` | Modifier bit mask, test with `META` |
+| `metaState` | `number` | Modifier bit mask, test with `Meta` |
 | `repeatCount` | `number` | `0` first press, `> 0` auto-repeat |
 | `deviceId` | `number` | Source input device, matches `KeyboardDevice.id` |
 | `eventTime` | `number` | `SystemClock.uptimeMillis()` of the event |
 | `consumed` | `boolean` | A [consume rule](#consuming-keys) swallowed it |
 
-`META` constants: `SHIFT` `0x1`, `ALT` `0x2`, `CTRL` `0x1000`, `META` `0x10000` (Windows/Command key). `metaState` also carries
+`Meta` constants: `SHIFT` `0x1`, `ALT` `0x2`, `CTRL` `0x1000`, `META` `0x10000` (Windows/Command key). `metaState` also carries
 lock and left/right bits; mask what you test.
 
 Native code emits events only while at least one key listener is subscribed; with none, a key press costs nothing extra.
@@ -156,9 +156,9 @@ Native code emits events only while at least one key listener is subscribed; wit
 `matchesKey(event, match, repeat?)` answers "is this event that shortcut?" with one call:
 
 ```ts
-import { matchesKey, keyCodeFor, META } from '@actualwave/react-native-keyboard';
+import { matchesKey, keyCodeFor, Meta } from '@actualwave/react-native-keyboard';
 
-const FORMAT = { keyCode: keyCodeFor('f'), metaState: META.CTRL | META.ALT };   // Ctrl+Alt+F
+const FORMAT = { keyCode: keyCodeFor('f'), metaState: Meta.CTRL | Meta.ALT };   // Ctrl+Alt+F
 
 addKeyDownListener((e) => {
   if (matchesKey(e, FORMAT)) format();
@@ -175,7 +175,7 @@ addKeyDownListener((e) => {
 
 - With the defaults the match is **exact**: `Ctrl+Alt+F` does not match `Ctrl+Alt+Shift+F`.
 - Lock bits (Caps/Num Lock) and left/right bits are ignored, because they are outside the default mask.
-- To ignore Shift, narrow the mask: `{ keyCode, metaState: META.CTRL, metaMask: META.CTRL | META.ALT }`.
+- To ignore Shift, narrow the mask: `{ keyCode, metaState: Meta.CTRL, metaMask: Meta.CTRL | Meta.ALT }`.
 - Auto-repeat events (`repeatCount > 0`) never match, so a held shortcut fires once. Pass `true` as the third argument to include them.
 
 ## Consuming keys
@@ -185,10 +185,10 @@ consumption is **declarative**. You register rules, and native code decides per 
 see the key.
 
 ```ts
-import { consumeKeys, useConsumeKeys, keyCodeFor, KeyCode, META } from '@actualwave/react-native-keyboard';
+import { consumeKeys, useConsumeKeys, keyCodeFor, KeyCode, Meta } from '@actualwave/react-native-keyboard';
 
 const stop = consumeKeys([
-  { keyCode: keyCodeFor('s'), metaState: META.CTRL },     // Ctrl+S
+  { keyCode: keyCodeFor('s'), metaState: Meta.CTRL },     // Ctrl+S
   { keyCode: KeyCode.F6 },                                // F6, unmodified
 ]);
 stop();                                                    // remove this call's rules
@@ -239,9 +239,9 @@ return hasKeyboard ? <ShortcutHints /> : <TouchToolbar />;
 
 ```tsx
 const SHORTCUTS = [
-  { name: 'save',   match: { keyCode: keyCodeFor('s'), metaState: META.CTRL },                 run: save },
-  { name: 'format', match: { keyCode: keyCodeFor('f'), metaState: META.CTRL | META.ALT },      run: format },
-  { name: 'palette', match: { keyCode: keyCodeFor('p'), metaState: META.CTRL | META.SHIFT },   run: openPalette },
+  { name: 'save',   match: { keyCode: keyCodeFor('s'), metaState: Meta.CTRL },                 run: save },
+  { name: 'format', match: { keyCode: keyCodeFor('f'), metaState: Meta.CTRL | Meta.ALT },      run: format },
+  { name: 'palette', match: { keyCode: keyCodeFor('p'), metaState: Meta.CTRL | Meta.SHIFT },   run: openPalette },
 ];
 const RULES = SHORTCUTS.map((s) => s.match);
 
@@ -270,7 +270,7 @@ function Recorder({ onDone }: { onDone: (m: KeyMatch) => void }) {
   // no consume rules are needed: the raw combination arrives at the listener
   useKeyDown((e) => {
     if (e.repeatCount > 0 || MODIFIER_CODES.has(e.keyCode)) return;
-    onDone({ keyCode: e.keyCode, metaState: e.metaState & (META.SHIFT | META.ALT | META.CTRL | META.META) });
+    onDone({ keyCode: e.keyCode, metaState: e.metaState & (Meta.SHIFT | Meta.ALT | Meta.CTRL | Meta.META) });
   });
   return <Text>Press a combination…</Text>;
 }
@@ -309,7 +309,7 @@ addKeyDownListener((e) => console.log(keyNameOf(e.keyCode) ?? e.keyCode, e.metaS
 | `charForKeyCode(code)` | `(code: number) => string \| undefined` |
 | `KeyCode` | `Readonly<Record<string, number>>` |
 | `keyNameOf(code)` | `(code: number) => string \| undefined` |
-| `META` | `{ SHIFT, ALT, CTRL, META }` modifier bits |
+| `Meta` | `{ SHIFT, ALT, CTRL, META }` modifier bits |
 | Types | `KeyboardDevice`, `KeyboardChange`, `KeyEvent`, `KeyMatch`, `ConsumeRule` (alias of `KeyMatch`) |
 
 Every `add…` function and `consumeKeys` returns its own unsubscribe function; calling it twice is safe.

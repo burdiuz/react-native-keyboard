@@ -11,6 +11,6 @@ Android only (no-ops elsewhere). This is a quick reference; **read README.md for
 - Events: `addKeyDownListener` / `addKeyUpListener` / `useKeyDown(handler, enabled?)` give `{ keyCode, metaState, repeatCount, deviceId, eventTime, consumed }`.
 - Consume (stopPropagation for keys): `consumeKeys(rules)` / `useConsumeKeys(rules, enabled?)`; rules are `{ keyCode?, metaState?, metaMask? }` (omitted `keyCode` = any key; modifiers Shift/Alt/Ctrl/Meta are compared unless `metaMask` says otherwise). JS cannot veto events, so rules are declarative and applied natively. Consumed keys still reach key listeners with `consumed: true`.
 - Match: `matchesKey(event, match, repeat?)` (exact on Shift/Alt/Ctrl/Meta by default, ignores auto-repeat).
-- Helpers: `keyCodeFor('f')`, `charForKeyCode(34)`, `KeyCode.ENTER`, `keyNameOf(66)`, `META.CTRL`.
+- Helpers: `keyCodeFor('f')`, `charForKeyCode(34)`, `KeyCode.ENTER`, `keyNameOf(66)`, `Meta.CTRL`.
 - Every `add…`/`consumeKeys` returns an unsubscribe function; hooks clean up on unmount. Keep rules arrays referentially stable.
 - Limits: works only in the main activity's window (no Modal, `Alert`, dialogs, popups); system keys (Home, power) cannot be consumed. `KeyCode.X` is `number | undefined` under strict typing.

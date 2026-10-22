@@ -1,7 +1,7 @@
 import type { KeyEvent } from './index';
 
 /** `metaState` bits. */
-export const META = {
+export const Meta = {
   SHIFT: 0x1,
   ALT: 0x2,
   CTRL: 0x1000,
@@ -9,12 +9,12 @@ export const META = {
 } as const;
 
 /** Modifier bits compared by default; lock and left/right bits are ignored. */
-export const MODIFIERS = META.SHIFT | META.ALT | META.CTRL | META.META;
+export const MODIFIERS = Meta.SHIFT | Meta.ALT | Meta.CTRL | Meta.META;
 
 export interface KeyMatch {
   /** Android `KEYCODE_*`; omit for any key. */
   keyCode?: number;
-  /** Required modifier bits (see `META`); default none, so only the unmodified key matches. */
+  /** Required modifier bits (see `Meta`); default none, so only the unmodified key matches. */
   metaState?: number;
   /** Which bits of `metaState` to compare; default shift|alt|ctrl|meta. */
   metaMask?: number;

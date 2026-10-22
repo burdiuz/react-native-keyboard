@@ -1,16 +1,16 @@
 import { describe, it, expect } from '@jest/globals';
 
-import { META, charForKeyCode, keyCodeFor, matchesKey } from './match';
+import { Meta, charForKeyCode, keyCodeFor, matchesKey } from './match';
 
 const F = 34;
 const ev = (keyCode: number, metaState = 0, repeatCount = 0) => ({ keyCode, metaState, repeatCount });
-const CTRL_ALT = META.CTRL | META.ALT;
+const CTRL_ALT = Meta.CTRL | Meta.ALT;
 
 describe('matchesKey', () => {
   it('matches key and exact modifiers', () => {
     expect(matchesKey(ev(F, CTRL_ALT), { keyCode: F, metaState: CTRL_ALT })).toBe(true);
-    expect(matchesKey(ev(F, CTRL_ALT | META.SHIFT), { keyCode: F, metaState: CTRL_ALT })).toBe(false);
-    expect(matchesKey(ev(F, META.CTRL), { keyCode: F, metaState: CTRL_ALT })).toBe(false);
+    expect(matchesKey(ev(F, CTRL_ALT | Meta.SHIFT), { keyCode: F, metaState: CTRL_ALT })).toBe(false);
+    expect(matchesKey(ev(F, Meta.CTRL), { keyCode: F, metaState: CTRL_ALT })).toBe(false);
     expect(matchesKey(ev(35, CTRL_ALT), { keyCode: F, metaState: CTRL_ALT })).toBe(false);
   });
 
@@ -20,13 +20,13 @@ describe('matchesKey', () => {
 
   it('matches an unmodified key by default and any key without keyCode', () => {
     expect(matchesKey(ev(F), { keyCode: F })).toBe(true);
-    expect(matchesKey(ev(F, META.CTRL), { keyCode: F })).toBe(false);
-    expect(matchesKey(ev(F, META.CTRL), { metaState: META.CTRL })).toBe(true);
+    expect(matchesKey(ev(F, Meta.CTRL), { keyCode: F })).toBe(false);
+    expect(matchesKey(ev(F, Meta.CTRL), { metaState: Meta.CTRL })).toBe(true);
   });
 
   it('honours metaMask', () => {
     const rule = { keyCode: F, metaState: CTRL_ALT, metaMask: CTRL_ALT };
-    expect(matchesKey(ev(F, CTRL_ALT | META.SHIFT), rule)).toBe(true);
+    expect(matchesKey(ev(F, CTRL_ALT | Meta.SHIFT), rule)).toBe(true);
   });
 
   it('skips auto-repeat unless asked', () => {
