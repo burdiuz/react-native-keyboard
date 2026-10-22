@@ -1,0 +1,58 @@
+{
+  "name": "@actualwave/react-native-keyboard",
+  "version": "0.1.0",
+  "description": "Android hardware keyboard for React Native: live presence detection, key events with modifiers, and consuming shortcuts natively. Android only.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "react-native": "src/index.ts",
+  "files": [
+    "src",
+    "android",
+    "react-native.config.js",
+    "LICENSE",
+    "!android/build",
+    "!**/*.spec.ts",
+    "!**/.*",
+    "CHANGELOG.md",
+    "SKILL.md",
+    "README.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck"
+  },
+  "keywords": [
+    "react-native",
+    "android",
+    "keyboard",
+    "hardware-keyboard",
+    "key-events",
+    "shortcuts",
+    "android-tv",
+    "keycode"
+  ],
+  "author": "Oleg Galaburda <burdiuz@gmail.com> (https://github.com/burdiuz)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burdiuz/react-native-keyboard.git"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "react": "19.2.0",
+    "react-native": "0.83.6",
+    "typescript": "^5.9.0"
+  },
+  "sideEffects": false,
+  "bugs": {
+    "url": "https://github.com/burdiuz/react-native-keyboard/issues"
+  },
+  "homepage": "https://github.com/burdiuz/react-native-keyboard#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}
